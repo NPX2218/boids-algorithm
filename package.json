@@ -1,5 +1,6 @@
 
 {
+  "homepage": "http://npx2218.github.io/boids-algorithm/",
   "name": "reynolds-boid",
   "version": "0.1.0",
   "private": true,

@@ -1,7 +1,6 @@
 /////////////////////////////////////
 // IMPORTING MODULES
 /////////////////////////////////////
-//"homepage": "http://npx2218.github.io/double-pendulum/",
 
 import React from "react";
 import Navbar from "../../components/Navbar/Navbar";
