@@ -1,9 +1,20 @@
+/////////////////////////////////////
+// IMPORTING LIBRARIES
+/////////////////////////////////////
+
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import Button from "../Button";
-import alertMessage from "../Alert/Alert";
+import { alertMessage } from "../Alert/Alert";
 import { themeColor } from "../../theme";
 
-const Boids = ({ scroll }: any) => {
+/////////////////////////////////////
+// COMPONENT: BOIDS
+/////////////////////////////////////
+
+const Boids = (): JSX.Element => {
+  /////////////////////////////////////
+  // SETTING STATES AND REFS
+  /////////////////////////////////////
   const [drawTrail, setDrawTrail] = useState<boolean>(false);
   const [avoidOthersSetting, setAvoidOthersSetting] = useState<boolean>(true);
   const [flyTowardsCenterSetting, setFlyTowardsCenterSetting] =
@@ -14,7 +25,7 @@ const Boids = ({ scroll }: any) => {
   const [visualRange, setVisualRange] = useState<number>(75);
   const [speedLimit, setSpeedLimit] = useState<number>(15);
   const [alertShow, setAlertShow] = useState<boolean>(false);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   const width = useRef<number>(150);
   const height = useRef<number>(150);
@@ -25,6 +36,10 @@ const Boids = ({ scroll }: any) => {
   const avoidOthersSettingRef = useRef(avoidOthersSetting);
   const flyTowardsCenterSettingRef = useRef(flyTowardsCenterSetting);
   const matchVelocitySettingRef = useRef(matchVelocitySetting);
+
+  /////////////////////////////////////
+  // UPDATING REFS
+  /////////////////////////////////////
 
   useEffect(() => {
     drawTrailRef.current = drawTrail;
@@ -42,11 +57,19 @@ const Boids = ({ scroll }: any) => {
     matchVelocitySettingRef.current = matchVelocitySetting;
   }, [matchVelocitySetting]);
 
+  /////////////////////////////////////
+  // CALLBACKS: DISTANCE
+  /////////////////////////////////////
+
   const distance = useCallback(
     (boid1, boid2) =>
       Math.sqrt((boid1.x - boid2.x) ** 2 + (boid1.y - boid2.y) ** 2),
     []
   );
+
+  /////////////////////////////////////
+  // CALLBACKS: SIZE CANVAS
+  /////////////////////////////////////
 
   const sizeCanvas = useCallback(() => {
     const canvas = canvasRef.current;
@@ -58,6 +81,10 @@ const Boids = ({ scroll }: any) => {
     }
   }, []);
 
+  /////////////////////////////////////
+  // CALLBACKS: KEEP WITHIN BOUNDS
+  /////////////////////////////////////
+
   const keepWithinBounds = useCallback((boid) => {
     const margin = 200;
     const turnFactor = 1;
@@ -67,6 +94,10 @@ const Boids = ({ scroll }: any) => {
     if (boid.y < margin) boid.dy += turnFactor;
     if (boid.y > height.current - margin) boid.dy -= turnFactor;
   }, []);
+
+  /////////////////////////////////////
+  // CALLBACKS: FLY TOWARDS CENTER
+  /////////////////////////////////////
 
   const flyTowardsCenter = useCallback(
     (boid) => {
@@ -94,6 +125,10 @@ const Boids = ({ scroll }: any) => {
     [distance, visualRange]
   );
 
+  /////////////////////////////////////
+  // CALLBACKS: AVOID OTHERS
+  /////////////////////////////////////
+
   const avoidOthers = useCallback(
     (boid) => {
       if (!avoidOthersSettingRef.current) return;
@@ -114,6 +149,10 @@ const Boids = ({ scroll }: any) => {
     },
     [distance]
   );
+
+  /////////////////////////////////////
+  // CALLBACKS: MATCH VELOCITY
+  /////////////////////////////////////
 
   const matchVelocity = useCallback(
     (boid) => {
@@ -141,6 +180,10 @@ const Boids = ({ scroll }: any) => {
     [distance, visualRange]
   );
 
+  /////////////////////////////////////
+  // CALLBACKS: LIMIT SPEED
+  /////////////////////////////////////
+
   const limitSpeed = useCallback(
     (boid) => {
       const speed = Math.sqrt(boid.dx ** 2 + boid.dy ** 2);
@@ -151,6 +194,10 @@ const Boids = ({ scroll }: any) => {
     },
     [speedLimit]
   );
+
+  /////////////////////////////////////
+  // CALLBACKS: DRAW BOID
+  /////////////////////////////////////
 
   const drawBoid = useCallback((ctx, boid) => {
     const angle = Math.atan2(boid.dy, boid.dx);
@@ -176,6 +223,10 @@ const Boids = ({ scroll }: any) => {
       ctx.stroke();
     }
   }, []);
+
+  /////////////////////////////////////
+  // CALLBACKS: ANIMATION LOOP
+  /////////////////////////////////////
 
   const animationLoop = useCallback(
     (timestamp) => {
@@ -213,7 +264,11 @@ const Boids = ({ scroll }: any) => {
   );
 
   useEffect(() => {
-    const initBoids = () => {
+    /////////////////////////////////////
+    // FUNCTION: INIT BOIDS
+    /////////////////////////////////////
+
+    const initBoids = (): void => {
       boids.current = Array.from({ length: numBoids }, () => ({
         x: Math.random() * width.current,
         y: Math.random() * height.current,
@@ -233,7 +288,13 @@ const Boids = ({ scroll }: any) => {
     };
   }, [animationLoop, numBoids, sizeCanvas]);
 
-  const handleNumBoidsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  /////////////////////////////////////
+  // FUNCTION: HANDLE NUMBER BOIDS CHANGE
+  /////////////////////////////////////
+
+  const handleNumBoidsChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ): void => {
     const value = Number(e.target.value);
     if (value <= 200 && value >= 0) {
       setNumBoids(value);
@@ -244,7 +305,13 @@ const Boids = ({ scroll }: any) => {
     }
   };
 
-  const handleVisualRangeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  /////////////////////////////////////
+  // FUNCTION: HANDLE VISUAL RANGE CHANGE
+  /////////////////////////////////////
+
+  const handleVisualRangeChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ): void => {
     const value = Number(e.target.value);
     if (value <= 150 && value >= 0) {
       setVisualRange(value);
@@ -255,7 +322,13 @@ const Boids = ({ scroll }: any) => {
     }
   };
 
-  const handleSpeedLimitChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  /////////////////////////////////////
+  // FUNCTION: HANDLE SPEED LIMIT CHANGE
+  /////////////////////////////////////
+
+  const handleSpeedLimitChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ): void => {
     const value = Number(e.target.value);
     if (value <= 30 && value >= 5) {
       setSpeedLimit(value);
@@ -349,5 +422,9 @@ const Boids = ({ scroll }: any) => {
     </div>
   );
 };
+
+/////////////////////////////////////
+// EXPORTING BOIDS
+/////////////////////////////////////
 
 export default Boids;

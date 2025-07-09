@@ -13,15 +13,15 @@ var Latex = require("react-latex");
 // INTERFACE: PROPS
 /////////////////////////////////////
 
-interface Props {
-  scroll?: LocomotiveScroll | null;
+interface HomeProps {
+  scroll: LocomotiveScroll | null;
 }
 
 /////////////////////////////////////
 // COMPONENT: HOME
 /////////////////////////////////////
 
-const Home = ({ scroll }: Props) => {
+const Home = ({ scroll }: HomeProps): JSX.Element => {
   return (
     <div data-scroll-container className="overflow-x-hidden">
       <div className="flex flex-col items-center py-12 bg-black">
@@ -78,7 +78,8 @@ const Home = ({ scroll }: Props) => {
               Psuedo-code of algorithm
             </h2>
             <pre className="code-snippet text-white p-4 rounded-lg overflow-auto w-full whitespace-pre-wrap">{`
-VISUAL_RANGE = 10
+
+VISUAL_RANGE = 10 // Setting the visual range of the boids
             
 boids = Array<Boid> [OR] [{
   x: random.x,
@@ -86,10 +87,13 @@ boids = Array<Boid> [OR] [{
   dx: random.dx,
   dy: random.dy,
   history: Array,
-}, ...]
+}, ...] // Creating a boid array with random characteristics
 
 
-function distanceFormula = (boid1, boid2) =>  sqrt((boid1.x - boid2.x) ** 2 + (boid1.y - boid2.y) ** 2);
+function distanceFormula = (boid1, boid2) =>  sqrt((boid1.x - boid2.x) ** 2 + (boid1.y - boid2.y) ** 2); // A function that finds the Euclidean distance between two boids 
+
+// One of the three behaviours with boids, where the boids move towards their neighbours causing them to reach center
+
 function flyTowardsCenter = (boid) => {
   totalX = 0
   totalY = 0
@@ -115,6 +119,8 @@ function flyTowardsCenter = (boid) => {
       boid.dy += (totalY - boid.y) * CENTERING_FACTOR;
     }
 }
+    
+// Boids also avoid each other slightly to prevent them from colliding
 function avoidOtherBoids = (boid) => {
   MIN_DISTANCE = 20
   avoid_factor = 0.05
@@ -134,6 +140,7 @@ function avoidOtherBoids = (boid) => {
     }
 }
 
+// Boids also try to match the velocity of their neighbours
 function matchVelocity = (boid) => {
   matchingFactor = 0.05
   totalDx = 0
@@ -164,7 +171,7 @@ function matchVelocity = (boid) => {
         </div>
 
         <section id="visualizer">
-          <Boids scroll={scroll} />
+          <Boids />
         </section>
 
         <Footer />

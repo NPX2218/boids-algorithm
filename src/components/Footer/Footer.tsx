@@ -3,14 +3,13 @@
 /////////////////////////////////////
 
 import React from "react";
-import { Link } from "react-router-dom";
 import { themeColor } from "../../theme";
 
 /////////////////////////////////////
 // COMPONENT: FOOTER
 /////////////////////////////////////
 
-const Footer = () => {
+const Footer = (): JSX.Element => {
   return (
     <div className="w-full h-full">
       <div className="w-full h-full">
@@ -20,7 +19,7 @@ const Footer = () => {
         ></div>
         <div className="self-start mt-11 ml-16 text-base font-semibold tracking-tight leading-9 text-white max-md:mt-10 max-md:max-w-full">
           Made by <span style={{ color: themeColor }}>Neel Bansal</span>{" "}
-          <a href="#/bibliographies">— Copyright 2024</a>
+          <a href="#/bibliographies">— Copyright {new Date().getFullYear()}</a>
         </div>
       </div>
     </div>

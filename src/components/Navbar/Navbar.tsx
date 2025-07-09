@@ -5,11 +5,15 @@
 import React, { useState, useEffect } from "react";
 import logo from "./logo.png";
 
+interface NavbarProps {
+  scroll: LocomotiveScroll | null;
+}
+
 /////////////////////////////////////
 // COMPONENT: NAVBAR
 /////////////////////////////////////
 
-const Navbar = ({ scroll }) => {
+const Navbar = ({ scroll }: NavbarProps): JSX.Element => {
   const [isMobile, setIsMobile] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
 
@@ -32,7 +36,7 @@ const Navbar = ({ scroll }) => {
 
   const handleNavigation = (selector, fallbackHref) => {
     const element = document.querySelector(selector);
-    if (element) {
+    if (element && scroll) {
       scroll.scrollTo(element);
     } else if (fallbackHref) {
       window.location.href = fallbackHref;
