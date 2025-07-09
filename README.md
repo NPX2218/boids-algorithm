@@ -20,8 +20,8 @@ An interactive simulation of Craig Reynolds' Boids Algorithm, built with Typescr
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/npx2218/reynold-boid.git
-cd reynold-boid
+git clone https://github.com/npx2218/boids-algorithm.git
+cd boids-algorithm
 ```
 
 2. Install the dependencies and run the code
